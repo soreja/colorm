@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+<title>Color Conversion Test Cases</title>
+
+<script src="multiply-matrices.js"></script> <!-- https://github.com/w3c/csswg-drafts/tree/main/css-color-4 -->
+<script src="conversions.js"></script> <!-- https://github.com/w3c/csswg-drafts/tree/main/css-color-4 -->
+<script src="rgbToHsl.js"></script> <!-- https://github.com/w3c/csswg-drafts/tree/main/css-color-4 -->
+<script src="rgbToHwb.js"></script> <!-- https://github.com/w3c/csswg-drafts/tree/main/css-color-4 -->
+
+<script>
+
+function fixed(num, d)
+{
+	return num.toFixed(d) - 0
+}
+
+function check1(col, arr, d0, d1, d2)
+{
+	var s1 = col + '(rgb).vec(",' + d0 + d1 + d2 + '!")'
+	var s2 = '"(' + fixed(arr[0], d0) + ', ' + fixed(arr[1], d1) + ', ' + fixed(arr[2], d2) + ')"'
+	var s3 = '\tBOOST_CHECK_EQUAL(' + s1 + ', ' + s2 + ');\n'
+	return s3
+}
+
+function testcase1(name, rgb)
+{
+	var srgb   = [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255]
+	var hsl    = rgbToHsl(srgb[0], srgb[1], srgb[2])
+	var hwb    = rgbToHwb(srgb[0], srgb[1], srgb[2])
+	var lrgb   = lin_sRGB(srgb)
+	var xyz    = lin_sRGB_to_XYZ(lrgb)
+	var xyzD50 = D65_to_D50(xyz)
+	var lab    = XYZ_to_Lab(xyzD50)
+	var lch    = Lab_to_LCH(lab)
+	var oklab  = XYZ_to_OKLab(xyz)
+	var oklch  = OKLab_to_OKLCH(oklab)
+	var p3     = gam_P3(XYZ_to_lin_P3(xyz))
+	var a98    = gam_a98rgb(XYZ_to_lin_a98rgb(xyz))
+	var pro    = gam_ProPhoto(XYZ_to_lin_ProPhoto(xyzD50))
+	var rec    = gam_2020(XYZ_to_lin_2020(xyz))
+
+	var s = 'BOOST_AUTO_TEST_CASE(' + name + ')\n{\n'
+	s += '\tRgb rgb(' + rgb[0] + ', ' + rgb[1] + ', '+ rgb[2] + ');\n'
+	s += check1('Hsl',         hsl,    6, 6, 6)
+	s += check1('Hwb',         hwb,    6, 6, 6)
+	s += check1('Lrgb',        lrgb,   6, 6, 6)
+	s += check1('XyzD50',      xyzD50, 5, 5, 5)
+	s += check1('Lab',         lab,    3, 3, 3)
+	s += check1('Lch',         lch,    3, 3, 3)
+	s += check1('XyzD65',      xyz,    6, 6, 6)
+	s += check1('Oklab',       oklab,  6, 6, 6)
+	s += check1('Oklch',       oklch,  6, 6, 3)
+	s += check1('Srgb',        srgb,   6, 6, 6)
+	s += check1('DisplayP3',   p3,     6, 6, 6)
+	s += check1('A98Rgb',      a98,    6, 6, 6)
+	s += check1('ProphotoRgb', pro,    5, 5, 5)
+	s += check1('Rec2020',     rec,    6, 6, 6)
+	s += '}\n\n'
+	console.log(s)
+}
+
+function testcase1t(name, rgb)
+{
+	var srgb   = [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255]
+	var hsl    = rgbToHsl(srgb[0], srgb[1], srgb[2])
+	var hwb    = rgbToHwb(srgb[0], srgb[1], srgb[2])
+	var lrgb   = lin_sRGB(srgb)
+	var xyz    = lin_sRGB_to_XYZ(lrgb)
+	var xyzD50 = D65_to_D50(xyz)
+	var lab    = XYZ_to_Lab(xyzD50)
+	var lch    = Lab_to_LCH(lab)
+	var oklab  = XYZ_to_OKLab(xyz)
+	var oklch  = OKLab_to_OKLCH(oklab)
+	var p3     = gam_P3(XYZ_to_lin_P3(xyz))
+	var a98    = gam_a98rgb(XYZ_to_lin_a98rgb(xyz))
+	var pro    = gam_ProPhoto(XYZ_to_lin_ProPhoto(xyzD50))
+	var rec    = gam_2020(XYZ_to_lin_2020(xyz))
+
+	var s = 'BOOST_AUTO_TEST_CASE(' + name + ')\n{\n'
+	s += '\tRgb rgb(' + rgb[0] + ', ' + rgb[1] + ', '+ rgb[2] + ');\n'
+	s += check1('Hsl',         hsl,    5, 5, 5)
+	s += check1('Hwb',         hwb,    5, 5, 5)
+	s += check1('Lrgb',        lrgb,   5, 5, 5)
+	s += check1('XyzD50',      xyzD50, 4, 4, 4)
+	s += check1('Lab',         lab,    3, 3, 3)
+	s += check1('Lch',         lch,    3, 3, 3)
+	s += check1('XyzD65',      xyz,    5, 5, 5)
+	s += check1('Oklab',       oklab,  5, 5, 5)
+	s += check1('Oklch',       oklch,  5, 5, 3)
+	s += check1('Srgb',        srgb,   5, 5, 5)
+	s += check1('DisplayP3',   p3,     5, 5, 5)
+	s += check1('A98Rgb',      a98,    5, 5, 5)
+	s += check1('ProphotoRgb', pro,    4, 4, 4)
+	s += check1('Rec2020',     rec,    5, 5, 5)
+	s += '}\n\n'
+	console.log(s)
+}
+
+function check2(col1, col2, val)
+{
+	var s1 = val + '.distance(' + col1 + '(' + col2 + '(' + val + ')))'
+	var s2 = '\tBOOST_CHECK_SMALL(' + s1 + ', 1E-10);\n'
+	var s3 = col1 + '(' + col2 + '(' + val + ')).alpha(), ' + val + '.alpha()'
+	var s4 = '\tBOOST_CHECK_EQUAL(' + s3 + ');\n'
+	return s2 + s4
+}
+
+function testcase2(col, cn, al)
+{
+	var name = col.toUpperCase();
+	var val = col.toLowerCase();
+	var s = 'BOOST_AUTO_TEST_CASE(' + name + ')\n{\n'
+	s += '\t' + col + ' ' + val + '(Cn::' + cn + ', ' + al + ');\n'
+	s += check2(col, 'Rgb', val)
+	s += check2(col, 'Hsl', val)
+	s += check2(col, 'Hwb', val)
+	s += check2(col, 'Lrgb', val)
+	s += check2(col, 'XyzD50', val)
+	s += check2(col, 'Lab', val)
+	s += check2(col, 'Lch', val)
+	s += check2(col, 'XyzD65', val)
+	s += check2(col, 'Oklab', val)
+	s += check2(col, 'Oklch', val)
+	s += check2(col, 'Srgb', val)
+	s += check2(col, 'DisplayP3', val)
+	s += check2(col, 'A98Rgb', val)
+	s += check2(col, 'ProphotoRgb', val)
+	s += check2(col, 'Rec2020', val)
+	s += '}\n\n'
+	console.log(s)
+}
+
+testcase1('DARK_KHAKI', [189, 183, 107])
+testcase1('DARK_KHAKI_NEG', [-189, -183, -107])
+testcase1t('DARK_KHAKI_10', [1890, 1830, 1070])
+testcase1('BLACK', [0, 0, 0])
+testcase1('WHITE', [255, 255, 255])
+
+testcase2('Rgb',    'Lightblue', 0.89)
+testcase2('Hsl',    'Lightblue', 0.89)
+testcase2('Hwb',    'Lightblue', 0.89)
+testcase2('Lrgb',   'Lightblue', 0.89)
+testcase2('XyzD50', 'Lightblue', 0.89)
+testcase2('Lab',    'Lightblue', 0.89)
+testcase2('Lch',    'Lightblue', 0.89)
+testcase2('XyzD65', 'Lightblue', 0.89)
+testcase2('Oklab',  'Lightblue', 0.89)
+testcase2('Oklch',  'Lightblue', 0.89)
+
+testcase2('Srgb',        'Lightblue', 0.89)
+testcase2('DisplayP3',   'Lightblue', 0.89)
+testcase2('A98Rgb',      'Lightblue', 0.89)
+testcase2('ProphotoRgb', 'Lightblue', 0.89)
+testcase2('Rec2020',     'Lightblue', 0.89)
+
+</script>
+</head>
+<body>
+</body>
+</html>
+

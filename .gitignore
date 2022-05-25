@@ -1,0 +1,13 @@
+.vs/
+[Rr]elease/
+[Dd]ebug/
+x64/
+*.dll
+*.pdb
+*.user
+*.db
+*.ini
+*.bak
+*.txt
+*.js
+
