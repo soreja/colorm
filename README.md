@@ -1,5 +1,5 @@
 # ColorM
-ColorM is a header-only color conversion and manipulation library for [CSS colors](https://www.w3.org/TR/css-color-4/) with an API similar to [chroma.js](https://github.com/gka/chroma.js/)'s API. This library is released under [the Unlicense license](https://unlicense.org/).
+ColorM is a C++11 header-only color conversion and manipulation library for [CSS colors](https://www.w3.org/TR/css-color-4/) with an API similar to [chroma.js](https://github.com/gka/chroma.js/)'s API. This library is released under [the Unlicense license](https://unlicense.org/).
 
 ## Table of contents
 - [Usage](#usage)
@@ -10,7 +10,7 @@ ColorM is a header-only color conversion and manipulation library for [CSS color
     - [Color string](#color-string)
     - [Clipping](#clipping)
 	- [Manipulation](#manipulation)
-	- [Manipulation in OKLCH color space](#manipulation-in-oklch-color-space)
+	- [Manipulation in Oklch color space](#manipulation-in-oklch-color-space)
 	- [Comparison](#comparison)
 	- [Blending](#blending)
 	- [Operators](#operators)
@@ -37,8 +37,8 @@ This library defines [the following color classes](https://www.w3.org/TR/css-col
 - Gray: Gray
 - Lch: CIE LCh color
 - XyzD65: CIE XYZ color using the D65 white point
-- Oklab: OKLab color
-- Oklch: OKLCH color
+- Oklab: Oklab color
+- Oklch: Oklch color
 - Srgb: sRGB color (The maximum value for red, green, and blue is 1)
 - DisplayP3: display-p3 color
 - A98Rgb: a98-rgb color
@@ -381,7 +381,7 @@ std::cout
 ```
 ![](images/Y_rgb_f5cd9b.png) ![](images/V_invert_0a3264.png)
 
-### Manipulation in [OKLCH color space](https://bottosson.github.io/posts/oklab/)
+### Manipulation in [Oklch color space](https://bottosson.github.io/posts/oklab/)
 
 Each color class has the following functions:
 
@@ -578,10 +578,10 @@ ColorScale is a class template that implements linear interpolation between colo
 
 ### Constructors and getters
 
-- Scale(std::initializer_list\<const char\*\> colors_)
-- Scale(std::initializer_list\<const char\*\> colors_, const std::vector\<double\>& domain_)
-- Scale(const std::vector\<T\>& colors_)
-- Scale(const std::vector\<T\>& colors_, const std::vector\<double\>& domain_)
+- ColorScale(std::initializer_list\<const char\*\> colors_)
+- ColorScale(std::initializer_list\<const char\*\> colors_, const std::vector\<double\>& domain_)
+- ColorScale(const std::vector\<T\>& colors_)
+- ColorScale(const std::vector\<T\>& colors_, const std::vector\<double\>& domain_)
 - getColorList(): returns the color list
 - getDomain(): returns the input domain
 
@@ -688,7 +688,7 @@ std::cout << std::endl;
 
 ## Color scale bezier
 
-ColorScaleBezier is a class that implements bezier interpolation between colors in [OKLab color space](https://bottosson.github.io/posts/oklab/).
+ColorScaleBezier is a class that implements bezier interpolation between colors in [Oklab color space](https://bottosson.github.io/posts/oklab/).
 
 ### Constructors and getters
 
