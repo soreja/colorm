@@ -379,7 +379,6 @@ BOOST_AUTO_TEST_CASE(CSSP)
 	const double d05 = 5.0 / 9.0;
 	const double d06 = 6.0 / 9.0;
 
-	const double d33 = 300.0 / 9.0;
 	const double d44 = 400.0 / 9.0;
 	const double d55 = 500.0 / 9.0;
 	const double d66 = 600.0 / 9.0;
